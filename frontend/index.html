@@ -1,0 +1,26 @@
+<video id="player" src="" controls />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+<script>
+    var socket = io.connect('ws://localhost:9999', { transports: ['websocket'] });
+        socket.on('connect', () => {
+                console.log("Connected with Server")
+            });
+        socket.on("example", (response) => {
+                response = response.text;
+                response = JSON.parse(response);
+                let player = document.getElementById("player");
+                player.src = response[1];
+                player.play();
+            });
+
+        socket.emit('playback', { text: 'fetch' }, function(response) {
+                response = response.text;
+                response = JSON.parse(response)
+                let player = document.getElementById("player");
+                player.src = response[1];
+                player.currentTime = (Date.now() / 1000) - response[6];
+                player.play();
+            });
+
+</script>
+
