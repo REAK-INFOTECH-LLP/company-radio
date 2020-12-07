@@ -1,0 +1,34 @@
+body {
+    margin: 10% 10% 10% 10%;
+    background-color: #000000;
+    color: #00ff00;
+}
+
+
+.title {
+    font-size: 4em;
+    text-decoration-line: underline;
+    text-decoration-style: double;
+}
+
+.playerbox {
+    border: 1.1em;
+    border-style: double;
+    width: 100%;
+    display: flex;
+}
+
+
+.album-art {
+    height: 200px;
+    flex: 1;
+}
+
+.playerinfo {
+    flex: 4;
+}
+
+img {
+    height: 100%;
+    object-fit: contain;
+}
