@@ -32,3 +32,35 @@ img {
     height: 100%;
     object-fit: contain;
 }
+
+.controls {
+    display: flex;
+    margin-top: 1.5em;
+}
+
+.songname {
+    margin-top: 1em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.songinfo {
+    margin-top: 1.2em;
+}
+
+.playcontrol {
+    flex: 1;
+    font-size: 1.5em;
+}
+
+.volumecontrol {
+    flex: 4;
+}
+
+.bracket {
+    font-size: 1.4em;
+}
+
+.hide {
+    color: #000000;
+}
