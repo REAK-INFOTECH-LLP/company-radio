@@ -91,6 +91,10 @@ player.onvolumechange = function() {
     volumeBar();
 }
 
+player.onended = function() {
+    setTimeout(() => {playback()},2000);
+}
+
 
 document.addEventListener('keyup', (e) => {
     if (e.code === "ArrowUp" || e.code === "ArrowRight"){
@@ -115,15 +119,6 @@ socket.on('connect', () => {
     document.getElementById("init").style.display = "none";
     document.getElementById("playerbox").style.visibility = "visible";
     playback();
-});
-
-socket.on("nextTrack", (response) => {
-    response = response.text;
-    response = JSON.parse(response);
-    setSongInformation(response);
-    let player = document.getElementById("radio");
-    player.src = response[1];
-    player.play();
 });
 
 socket.on("clientUpdate", (response) => {
