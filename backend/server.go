@@ -13,7 +13,6 @@ import (
     "github.com/dannav/hhmmss"
     "encoding/json"
     "strconv"
-    "net/http"
 )
 
 var playbackData []string
@@ -67,8 +66,7 @@ func playback(client *gosf.Client, request *gosf.Request) *gosf.Message {
 func init() {
     // Start goroutine for the radio
     //go startRadio()
-    go gosf.Listen("playback", playback)
-    go startRadio()
+    gosf.Listen("playback", playback)
     gosf.OnConnect(func(client *gosf.Client, request *gosf.Request) {
         connectedClients++
         fmt.Println("Total Clients "+strconv.Itoa(connectedClients))
@@ -87,7 +85,7 @@ func init() {
         message.Text = string(strconv.Itoa(connectedClients))
         gosf.Broadcast("", "clientUpdate", message)
     })
-
+    go startRadio()
 }
 
 func startRadio() {
@@ -114,7 +112,5 @@ func startRadio() {
 
 func main() {
     // Start the server using a basic configuration
-    go gosf.Startup(map[string]interface{}{"port": 9999})
-    http.Handle("/", http.FileServer(http.Dir("../frontend")))
-    http.ListenAndServe(":80", nil)
+    gosf.Startup(map[string]interface{}{"port": 9999})
 }
