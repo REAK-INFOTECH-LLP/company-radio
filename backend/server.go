@@ -19,7 +19,7 @@ var playbackData []string
 var connectedClients int
 
 func selectTrack() []string {
-    file, err := os.Open("tracks.csv")
+    file, err := os.Open("/home/ashish/PublicHTML/GIT/company-radio/backend/tracks.csv")
     if err != nil {
         fmt.Println(err)
     }
@@ -104,7 +104,6 @@ func startRadio() {
         if err != nil {
             dur = 5
         }
-        gosf.Broadcast("", "nextTrack", message)
         fmt.Println("Broadcast Update -- " + strconv.FormatInt(time.Now().Unix(), 10))
         time.Sleep(dur)
     }
