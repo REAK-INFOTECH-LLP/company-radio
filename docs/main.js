@@ -3,7 +3,7 @@ let playpause = document.getElementById("playpause");
 let endTime = document.getElementById("endTime");
 let currentTime = document.getElementById("currentTime");
 let progressTimer = null;
-const SOCKET_SERVER = "ws://localhost:9999";
+const SOCKET_SERVER = "wss://reak-radio.herokuapp.com/";
 // Make it autoplay
 //player.play();
 
@@ -67,7 +67,11 @@ function showCurrentTime(){
 
 
 function setSongInformation(data){
-    player.volume = localStorage.getItem("volume");
+    if (localStorage.getItem("volume") === null){
+        player.volume = 0.5;
+    } else {
+        player.volume = localStorage.getItem("volume");
+    }
     volumeBar();
     document.getElementById("songcover").src = data[2];
     document.getElementById("songname").innerHTML = data[0];
@@ -117,7 +121,7 @@ var socket = io.connect(SOCKET_SERVER, { transports: ['websocket'] });
 
 socket.on('connect', () => {
     document.getElementById("init").style.display = "none";
-    document.getElementById("playerbox").style.visibility = "visible";
+    document.getElementById("playerarea").style.visibility = "visible";
     playback();
 });
 
@@ -128,13 +132,17 @@ socket.on("clientUpdate", (response) => {
 });
 
 function playback(){
-    socket.emit('playback', { text: 'fetch' }, function(response) {
-        response = response.text;
-        response = JSON.parse(response)
-        setSongInformation(response);
-        let player = document.getElementById("radio");
-        player.src = response[1];
-        player.currentTime = (Date.now() / 1000) - response[6];
-        player.play();
-    });
+    try{
+        socket.emit('playback', { text: 'fetch' }, function(response) {
+            response = response.text;
+            response = JSON.parse(response)
+            setSongInformation(response);
+            let player = document.getElementById("radio");
+            player.src = response[1];
+            player.currentTime = (Date.now() / 1000) - response[6];
+            player.play();
+        });
+    } catch {
+        setTimeout(() => {playback()},5000);
+    }
 }

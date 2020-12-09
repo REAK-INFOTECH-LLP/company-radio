@@ -80,3 +80,9 @@ img {
 .requester {
     flex: 1;
 }
+
+.help {
+    position: fixed;
+    bottom: 2em;
+    font-style: italic;
+}

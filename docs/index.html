@@ -12,38 +12,51 @@
         <div id="init">
             <h2>Loading Radio <span id="loadAnimation">...</span></h2>
         </div>
-        <div id="playerbox" class="playerbox" style="visibility: hidden;">
-            <div class="album-art">
-                <img id="songcover" alt="Album Art" src="https://upload.wikimedia.org/wikipedia/en/a/a7/Random_Access_Memories.jpg" />
-            </div>
-            <div class="playerinfo">
-                <div id="songname" class="songname">Song Name</div>
-                <div class="songinfo">
-                    <span id="currentTime">00:00</span> 
-                    <span id="progress"> [ &blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14; ] </span>
-                    <span id="endTime">99:99</span>
+        <div id="playerarea" style="visibility: hidden;">
+            <div id="playerbox" class="playerbox">
+                <div class="album-art">
+                    <img id="songcover" alt="Album Art" src="" />
                 </div>
-                <div class="controls">
-                    <div class="playcontrol">
-                        <span id="playpause"> [ <i class="fa fa-stop"></i> ] </span>
+                <div class="playerinfo">
+                    <div id="songname" class="songname">Song Name</div>
+                    <div class="songinfo">
+                        <span id="currentTime">00:00</span> 
+                        <span id="progress"> [ &blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14; ] </span>
+                        <span id="endTime">99:99</span>
                     </div>
-                    <div class="volumecontrol">
-                        <span class="volumeIcon">&minus;</span>
-                        <span id="volumeBlock"> [ &block; &block; &block; &block; &block; &block; &block; &block; &block; &block; ] </span>
-                        <span class="volumeIcon">+</span>
+                    <div class="controls">
+                        <div class="playcontrol">
+                            <span id="playpause"> [ <i class="fa fa-stop"></i> ] </span>
+                        </div>
+                        <div class="volumecontrol">
+                            <span class="volumeIcon">&minus;</span>
+                            <span id="volumeBlock"> [ &block; &block; &block; &block; &block; &block; &block; &block; &block; &block; ] </span>
+                            <span class="volumeIcon">+</span>
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div class="info">
+                <div class="clients">
+                    <i class="fa fa-users"></i> - <span id="connectedClients"></span>
+                </div>
+                <div class="requester">
+                    <i class="fa fa-music"></i> - <span id="requestUser"></span>
                 </div>
             </div>
         </div>
-        <div class="info">
-            <div class="clients">
-                <i class="fa fa-users"></i> - <span id="connectedClients"></span>
-            </div>
-            <div class="requester">
-                <i class="fa fa-music"></i> - <span id="requestUser"></span>
-            </div>
+        <div class="help">
+            <h4>Help</h4>
+            <ul>
+                <li>
+                    <strong>Space</strong> - Play / Pause Control
+                </li>
+                <li>
+                    <strong>Arrow Keys</strong> - Volume Control
+                </li>
+            </ul>
         </div>
-        <audio id="radio" src="https://filesamples.com/samples/audio/m4a/sample1.m4a" type="audio/m4a" />
-        <script src="main.js"></script>
+        <audio id="radio" src="" type="audio/m4a" />
+            <script src="main.js"></script>
     </body>
 </html>
