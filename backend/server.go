@@ -19,7 +19,7 @@ var playbackData []string
 var connectedClients int
 
 func selectTrack() []string {
-    file, err := os.Open("/home/ashish/PublicHTML/GIT/company-radio/backend/tracks.csv")
+    file, err := os.Open("tracks.csv")
     if err != nil {
         fmt.Println(err)
     }
