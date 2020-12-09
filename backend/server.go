@@ -13,9 +13,11 @@ import (
     "github.com/dannav/hhmmss"
     "encoding/json"
     "strconv"
+    "net/http"
 )
 
-var playbackData string = "Dummy Data"
+var playbackData []string
+var connectedClients int
 
 func selectTrack() []string {
     file, err := os.Open("tracks.csv")
@@ -27,6 +29,7 @@ func selectTrack() []string {
 
     rand.Seed(time.Now().UnixNano())
     var indexnum int = rand.Intn(len(records))
+    fmt.Println("Queueing "+strconv.Itoa(indexnum))
     return records[indexnum]
 }
 
@@ -48,9 +51,16 @@ func trackInfo(ytUrl string) []string {
 
 func playback(client *gosf.Client, request *gosf.Request) *gosf.Message {
     fmt.Println("Playback Request Served")
+    data := append(playbackData, strconv.Itoa(connectedClients))
+    res, err := json.Marshal(data)
     response := new(gosf.Message)
-    response.Success = true
-    response.Text = playbackData
+    if err != nil {
+        response.Success = false
+        response.Text = "Failed"
+    } else {
+        response.Success = true
+        response.Text = string(res)
+    }
     return response
 }
 
@@ -59,23 +69,44 @@ func init() {
     //go startRadio()
     go gosf.Listen("playback", playback)
     go startRadio()
+    gosf.OnConnect(func(client *gosf.Client, request *gosf.Request) {
+        connectedClients++
+        fmt.Println("Total Clients "+strconv.Itoa(connectedClients))
+        message := new(gosf.Message)
+        message.Success = true
+        message.Text = string(strconv.Itoa(connectedClients))
+        gosf.Broadcast("", "clientUpdate", message)
+    })
+    gosf.OnDisconnect(func(client *gosf.Client, request *gosf.Request) {
+        if(connectedClients > 1) {
+            connectedClients--
+        }
+        fmt.Println("Total Clients "+strconv.Itoa(connectedClients))
+        message := new(gosf.Message)
+        message.Success = true
+        message.Text = string(strconv.Itoa(connectedClients))
+        gosf.Broadcast("", "clientUpdate", message)
+    })
+
 }
 
 func startRadio() {
     for {
         track := selectTrack()
         trackDetails := trackInfo(track[0])
+        fmt.Println("Fetched Info : "+trackDetails[0])
         trackDetails = append(trackDetails, track[1], strconv.FormatInt(time.Now().Unix(),10))
+        playbackData = trackDetails
+        trackDetails = append(trackDetails, strconv.Itoa(connectedClients))
         message := new(gosf.Message)
         message.Success = true
-        text, err := json.Marshal(trackDetails)
-        playbackData = string(text)
-        message.Text = playbackData
+        data, err := json.Marshal(trackDetails)
+        message.Text = string(data)
         dur, err := hhmmss.Parse(trackDetails[3])
         if err != nil {
             dur = 5
         }
-        gosf.Broadcast("", "example", message)
+        gosf.Broadcast("", "nextTrack", message)
         fmt.Println("Broadcast Update -- " + strconv.FormatInt(time.Now().Unix(), 10))
         time.Sleep(dur)
     }
@@ -83,5 +114,7 @@ func startRadio() {
 
 func main() {
     // Start the server using a basic configuration
-    gosf.Startup(map[string]interface{}{"port": 9999})
+    go gosf.Startup(map[string]interface{}{"port": 9999})
+    http.Handle("/", http.FileServer(http.Dir("../frontend")))
+    http.ListenAndServe(":80", nil)
 }

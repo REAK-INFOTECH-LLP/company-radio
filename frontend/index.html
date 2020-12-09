@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>REAK Radio</title>
-</head>
-<body>
-<video id="player" controls />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
-<script>
-    var socket = io.connect('ws://localhost:9999', { transports: ['websocket'] });
-        socket.on('connect', () => {
-                console.log("Connected with Server")
-            });
-        socket.on("example", (response) => {
-                response = response.text;
-                response = JSON.parse(response);
-                let player = document.getElementById("player");
-                player.src = response[1];
-                player.play();
-            });
-
-        socket.emit('playback', { text: 'fetch' }, function(response) {
-                response = response.text;
-                response = JSON.parse(response)
-                let player = document.getElementById("player");
-                player.src = response[1];
-                player.currentTime = (Date.now() / 1000) - response[6];
-                player.play();
-            });
-
-</script>
+    <head>
+        <meta charset="utf-8"/>
+        <title>REAK Radio</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+    </head>
+    <body>
+        <h1 class="title">REAK Radio</h1>
+        <div id="init">
+            <h2>Loading Radio <span id="loadAnimation">...</span></h2>
+        </div>
+        <div id="playerbox" class="playerbox" style="visibility: hidden;">
+            <div class="album-art">
+                <img id="songcover" alt="Album Art" src="https://upload.wikimedia.org/wikipedia/en/a/a7/Random_Access_Memories.jpg" />
+            </div>
+            <div class="playerinfo">
+                <div id="songname" class="songname">Song Name</div>
+                <div class="songinfo">
+                    <span id="currentTime">00:00</span> 
+                    <span id="progress"> [ &blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14;&blk14; ] </span>
+                    <span id="endTime">99:99</span>
+                </div>
+                <div class="controls">
+                    <div class="playcontrol">
+                        <span id="playpause"> [ <i class="fa fa-stop"></i> ] </span>
+                    </div>
+                    <div class="volumecontrol">
+                        <span class="volumeIcon">&minus;</span>
+                        <span id="volumeBlock"> [ &block; &block; &block; &block; &block; &block; &block; &block; &block; &block; ] </span>
+                        <span class="volumeIcon">+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="info">
+            <div class="clients">
+                <i class="fa fa-users"></i> - <span id="connectedClients"></span>
+            </div>
+            <div class="requester">
+                <i class="fa fa-music"></i> - <span id="requestUser"></span>
+            </div>
+        </div>
+        <audio id="radio" src="https://filesamples.com/samples/audio/m4a/sample1.m4a" type="audio/m4a" />
+        <script src="main.js"></script>
+    </body>
+</html>
