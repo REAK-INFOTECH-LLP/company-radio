@@ -143,6 +143,6 @@ function playback(){
             player.play();
         });
     } catch {
-        setTimeout(() => {playback()},5000);
+        setTimeout(() => {location.reload()},2000);
     }
 }
