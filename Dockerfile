@@ -1,6 +1,6 @@
 FROM golang:1.15.6-buster
 
-RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/youtube-dl
 RUN chmod +x /usr/local/bin/youtube-dl
 RUN git clone https://github.com/REAK-INFOTECH-LLP/company-radio.git
 WORKDIR company-radio
