@@ -3,7 +3,7 @@ let playpause = document.getElementById("playpause");
 let endTime = document.getElementById("endTime");
 let currentTime = document.getElementById("currentTime");
 let progressTimer = null;
-const SOCKET_SERVER = "wss://reak-radio.herokuapp.com/";
+const SOCKET_SERVER = "wss://reak-radio.onrender.com/";
 // Make it autoplay
 //player.play();
 
