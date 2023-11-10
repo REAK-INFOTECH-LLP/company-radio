@@ -33,7 +33,7 @@ func selectTrack() []string {
 }
 
 func trackInfo(ytUrl string) []string {
-    out, err := exec.Command("./yt-dlp", "--rm-cache-dir", "--get-url", "--get-thumbnail", "--get-duration", "--get-title", "-f", "140", ytUrl).Output()
+    out, err := exec.Command("yt-dlp", "--rm-cache-dir", "--get-url", "--get-thumbnail", "--get-duration", "--get-title", "-f", "140", ytUrl).Output()
     if err != nil {
         log.Fatal(err)
     }
